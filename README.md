@@ -5,7 +5,7 @@
 Aninga is a Python GUI application designed to simplify downloading anime and manga content from the web. It boasts a user-friendly interface, support for popular websites, and options for selecting quality and destination folders.
 
 **ScreenShots**
-[]!()
+![ScreenShot for Aninga](/Screenshot.png)
 
 **Features:**
 
