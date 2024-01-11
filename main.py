@@ -8,11 +8,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 
+
 extension_path = './adblock.crx'
-video_urls = []
+
+
 
 def download_manga():
     manga_link = manga_urlInput.get()
@@ -66,7 +67,8 @@ def download_manga():
 def download_anime(quality):
     global destination
     global video_urls
-    
+    video_urls = []
+    episode_number = []
     anime_link = anime_urlInput.get()
     anime_range = anime_rangeInput.get()
     destination = anime_destinationInput.get()
@@ -76,15 +78,15 @@ def download_anime(quality):
     extension_path = './adblock.crx'
     chrome_options = Options()
     chrome_options.add_extension(extension_path)
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-
     driver = webdriver.Chrome(options=chrome_options)
 
     
 
     try:      
         start_page, end_page = map(int, anime_range.split('-'))
+        episode_num = start_page
         for episode_num in range(start_page, end_page + 1):
             episode_url = f"{anime_link}/{episode_num}"
             driver.get(episode_url)
@@ -110,35 +112,44 @@ def download_anime(quality):
             except Exception as e:
                 print(f"An error occurred on page {episode_num}: {str(e)}")
             
-            anime_name = anime_link.split('/')[-1]
+            
             
             ## Downloading from video_urls list ##
-            for index, video_url in enumerate(video_urls, start=1):
-                try:
-                    response = requests.get(video_url, stream=True)
-                    file_size = int(response.headers.get('content-length', 0))
-                    filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
-                    with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
-                        for chunk in response.iter_content(chunk_size=1024):
-                            if chunk:
-                                file.write(chunk)
-                                bar.update(len(chunk))
 
-                    print(f"Episode {episode_num} downloaded successfully.")
-                except Exception as e:
-                    print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
-        
         
         driver.quit()        
-                
-                
+        print('='*20)         
+        print(video_urls)
 
     except Exception as e:
         print(f"An error occurred on page {episode_num}: {str(e)}")
 
-    return video_urls
+    finally:
+        anime_name = anime_link.split('/')[-1]
+        
+        for episode_num in range(start_page, end_page +1):
+            
+            video_url = video_urls[episode_num - start_page]
+            
+            print(f'downloading...[{anime_name}] => [{video_url}]')
+            try:
+                response = requests.get(video_url, stream=True)
+                file_size = int(response.headers.get('content-length', 0))
+                filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
+                with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
+                    for chunk in response.iter_content(chunk_size=1024):
+                        if chunk:
+                            file.write(chunk)
+                            bar.update(len(chunk))
+
+                print(f"Episode {episode_num} downloaded successfully.")
+            except Exception as e:
+                print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
     
-       
+
+    
+    
+    
 window = ctk.CTk()
 window.title("Aninga")
 ctk.set_appearance_mode('dark')
