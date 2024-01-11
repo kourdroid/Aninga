@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+from PIL import Image
 from tqdm import tqdm
 import customtkinter as ctk
 from bs4 import BeautifulSoup
@@ -10,10 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
 extension_path = './adblock.crx'
-
-
 
 def download_manga():
     manga_link = manga_urlInput.get()
@@ -145,37 +143,36 @@ def download_anime(quality):
                 print('='*50)
             except Exception as e:
                 print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
-    
-
-    
-    
-    
+        
 window = ctk.CTk()
 window.title("Aninga")
 ctk.set_appearance_mode('dark')
 window.geometry('1280x720')
 window.resizable(False, False)
 
+
 ## Variables:
+
 heading1 = ('Open Sans', 64, 'bold')
 heading2 = ('Open Sans', 32, 'bold')
 heading3 = ('Open Sans', 24, 'bold')
 p = ('Open Sans', 20)
-primary = '#1573E2'
+primary = '#c03238'
+hover_primary = '#d10b0b'
 bgColor = '#03070B'
 inputBgColor = '#1A1B25'
 
-# my_image = ctk.CTkImage(bg_image, size=(1280, 720))
-# # Create a label with the background image for the window
-# image_label = ctk.CTkLabel(window, image=my_image, text="")
-# image_label.pack()
+## End of Variables
 
+
+bg_image = ctk.CTkImage(Image.open('background.png'), size=(1280,120))
 
 logoFrame = ctk.CTkFrame(master=window, width=1280, height=120, fg_color=bgColor)
 logoFrame.place(x=0,y=0)
 
-logo = ctk.CTkLabel(logoFrame, text='Aninga', font=heading1, text_color=primary)
-logo.place(x=524,y=10)
+image_label = ctk.CTkLabel(logoFrame, image=bg_image, text="")
+image_label.pack()
+
 
 animeFrame = ctk.CTkFrame(master=window, width=640, height=600,fg_color=bgColor, bg_color=bgColor)
 animeFrame.place(x=640, y=120)
@@ -200,7 +197,7 @@ manga_destinationInput.place(x=70,y=317)
 manga_classInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Class of Image')
 manga_classInput.place(x=70,y=394)
 
-manga_downBtn = ctk.CTkButton(mangaFrame ,command=download_manga, corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3)
+manga_downBtn = ctk.CTkButton(mangaFrame ,command=download_manga, corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3, hover_color=hover_primary)
 manga_downBtn.place(x=189,y=474)
 
 # ========================== Anime Section =========================
@@ -223,19 +220,19 @@ qFrame.place(x=70, y=397)
 
 quality_var = ctk.StringVar()
 
-q1 = ctk.CTkRadioButton(qFrame, text='360p', font=heading3, fg_color=primary, variable=quality_var, value='360p')
+q1 = ctk.CTkRadioButton(qFrame, text='360p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='360p')
 q1.place(x=0, y=9)
 
-q2 = ctk.CTkRadioButton(qFrame, text='480p', font=heading3, fg_color=primary, variable=quality_var, value='480p')
+q2 = ctk.CTkRadioButton(qFrame, text='480p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='480p')
 q2.place(x=135, y=9)
 
-q3 = ctk.CTkRadioButton(qFrame, text='720p', font=heading3, fg_color=primary, variable=quality_var, value='720p')
+q3 = ctk.CTkRadioButton(qFrame, text='720p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='720p')
 q3.place(x=269, y=9)
 
-q4 = ctk.CTkRadioButton(qFrame, text='1080p', font=heading3, fg_color=primary, variable=quality_var, value='1080p')
+q4 = ctk.CTkRadioButton(qFrame, text='1080p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='1080p')
 q4.place(x=402, y=9)
 
-anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3)
+anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3,hover_color=hover_primary)
 anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
