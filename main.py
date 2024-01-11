@@ -87,6 +87,7 @@ def download_anime(quality):
     try:      
         start_page, end_page = map(int, anime_range.split('-'))
         episode_num = start_page
+        print('please wait until data scraped...')
         for episode_num in range(start_page, end_page + 1):
             episode_url = f"{anime_link}/{episode_num}"
             driver.get(episode_url)
@@ -117,10 +118,8 @@ def download_anime(quality):
             ## Downloading from video_urls list ##
 
         
-        driver.quit()        
-        print('='*20)         
-        print(video_urls)
-
+        driver.quit()     
+        print('Downloading Episodes...')   
     except Exception as e:
         print(f"An error occurred on page {episode_num}: {str(e)}")
 
@@ -143,6 +142,7 @@ def download_anime(quality):
                             bar.update(len(chunk))
 
                 print(f"Episode {episode_num} downloaded successfully.")
+                print('='*50)
             except Exception as e:
                 print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
     
