@@ -188,10 +188,10 @@ mangaFrame.place(x=0,y=120)
 mangaTitle = ctk.CTkLabel(master=mangaFrame, text='Manga Downloader', font=heading2,text_color=primary)
 mangaTitle.place(x=168,y=58)
 
-manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Manga Link without Page Number')
+manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Manga Link without Chapter Number')
 manga_urlInput.place(x=70,y=162)
 
-manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input The range of Episodes')
+manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input the range of Chapters (e.g., 1-10)')
 manga_rangeInput.place(x=70,y=240)
 
 manga_destinationInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
@@ -209,10 +209,10 @@ manga_downBtn.place(x=189,y=474)
 animeTitle = ctk.CTkLabel(master=animeFrame, text='Anime Downloader', font=heading2,text_color=primary)
 animeTitle.place(x=168,y=58)
 
-anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Anime Link without Page Number')
+anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Anime Link without Episode Number')
 anime_urlInput.place(x=70,y=162)
 
-anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input The range of Episodes')
+anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input the range of Episodes (e.g., 1-25)')
 anime_rangeInput.place(x=70,y=240)
 
 anime_destinationInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
