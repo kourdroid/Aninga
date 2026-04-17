@@ -188,10 +188,10 @@ mangaFrame.place(x=0,y=120)
 mangaTitle = ctk.CTkLabel(master=mangaFrame, text='Manga Downloader', font=heading2,text_color=primary)
 mangaTitle.place(x=168,y=58)
 
-manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Manga Link without Page Number')
+manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Manga Link (e.g. without page number)')
 manga_urlInput.place(x=70,y=162)
 
-manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input The range of Episodes')
+manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Page Range (e.g. 1-10)')
 manga_rangeInput.place(x=70,y=240)
 
 manga_destinationInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
@@ -200,7 +200,7 @@ manga_destinationInput.place(x=70,y=317)
 manga_classInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Class of Image')
 manga_classInput.place(x=70,y=394)
 
-manga_downBtn = ctk.CTkButton(mangaFrame ,command=download_manga, corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3, hover_color=hover_primary)
+manga_downBtn = ctk.CTkButton(mangaFrame ,command=download_manga, corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3, hover_color=hover_primary, cursor='hand2')
 manga_downBtn.place(x=189,y=474)
 
 # ========================== Anime Section =========================
@@ -209,10 +209,10 @@ manga_downBtn.place(x=189,y=474)
 animeTitle = ctk.CTkLabel(master=animeFrame, text='Anime Downloader', font=heading2,text_color=primary)
 animeTitle.place(x=168,y=58)
 
-anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Anime Link without Page Number')
+anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Anime Link (e.g. without episode number)')
 anime_urlInput.place(x=70,y=162)
 
-anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Input The range of Episodes')
+anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Episode Range (e.g. 1-25)')
 anime_rangeInput.place(x=70,y=240)
 
 anime_destinationInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
@@ -221,21 +221,21 @@ anime_destinationInput.place(x=70,y=317)
 qFrame = ctk.CTkFrame(animeFrame,width=500,height=50,fg_color=bgColor, bg_color=bgColor)
 qFrame.place(x=70, y=397)
 
-quality_var = ctk.StringVar()
+quality_var = ctk.StringVar(value='720p')
 
-q1 = ctk.CTkRadioButton(qFrame, text='360p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='360p')
+q1 = ctk.CTkRadioButton(qFrame, text='360p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='360p', cursor='hand2')
 q1.place(x=0, y=9)
 
-q2 = ctk.CTkRadioButton(qFrame, text='480p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='480p')
+q2 = ctk.CTkRadioButton(qFrame, text='480p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='480p', cursor='hand2')
 q2.place(x=135, y=9)
 
-q3 = ctk.CTkRadioButton(qFrame, text='720p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='720p')
+q3 = ctk.CTkRadioButton(qFrame, text='720p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='720p', cursor='hand2')
 q3.place(x=269, y=9)
 
-q4 = ctk.CTkRadioButton(qFrame, text='1080p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='1080p')
+q4 = ctk.CTkRadioButton(qFrame, text='1080p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='1080p', cursor='hand2')
 q4.place(x=402, y=9)
 
-anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3,hover_color=hover_primary)
+anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3,hover_color=hover_primary, cursor='hand2')
 anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
