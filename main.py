@@ -221,7 +221,7 @@ anime_destinationInput.place(x=70,y=317)
 qFrame = ctk.CTkFrame(animeFrame,width=500,height=50,fg_color=bgColor, bg_color=bgColor)
 qFrame.place(x=70, y=397)
 
-quality_var = ctk.StringVar()
+quality_var = ctk.StringVar(value='1080p')
 
 q1 = ctk.CTkRadioButton(qFrame, text='360p', font=heading3, fg_color=primary,hover_color=hover_primary, variable=quality_var, value='360p')
 q1.place(x=0, y=9)
