@@ -1,6 +1,3 @@
-## 2024-05-15 - Domain-Accurate Placeholders
-**Learning:** Using domain-accurate terminology (e.g., "chapters" for Manga instead of "episodes", and "episodes" for Anime instead of "pages") along with concrete inline examples (e.g., "1-10") in input placeholders drastically reduces user confusion and prevents malformed data entry.
-**Action:** Always provide examples for expected formats in placeholders, and ensure the terminology aligns exactly with the context of the current view/domain.
-## 2024-05-24 - Explicit Initialization of Bound Variables in CustomTkinter
-**Learning:** When using CustomTkinter bound variables (like `StringVar`) with UI elements such as radio buttons, failing to provide an initial default `value` results in the UI loading in an empty, unselected visual state. This makes it non-obvious to the user what the default or expected input is, impacting accessibility and intuitive design.
-**Action:** Always explicitly initialize bound variables (`ctk.StringVar(value='default_option')`) so that the UI correctly reflects a selected state upon loading, ensuring a clear and immediate understanding of the available options.
+## 2024-03-20 - CustomTkinter Radio Button Empty State
+**Learning:** CustomTkinter `CTkRadioButton` components bound to a `StringVar` will render in an empty (unselected) visual state if the variable isn't explicitly initialized with a value that matches one of the radio buttons, potentially confusing users about what the default selection is.
+**Action:** Always initialize CustomTkinter StringVars or IntVars with a `value='...'` argument that matches one of the radio button options to ensure a valid default state is visibly selected on mount.
