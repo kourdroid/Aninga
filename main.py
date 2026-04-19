@@ -20,6 +20,10 @@ def download_manga():
     destination = manga_destinationInput.get()
     img_class = manga_classInput.get()
     driver = None
+
+    manga_downBtn.configure(state="disabled", text="Downloading...")
+    window.update()
+
     try:
         # Create the destination directory if it doesn't exist
         if not os.path.exists(destination):
@@ -60,6 +64,7 @@ def download_manga():
     except Exception as e:
         print(f"Error: {str(e)}")
     finally:
+        manga_downBtn.configure(state="normal", text="Download")
         if driver:
             driver.quit()
     
@@ -74,6 +79,9 @@ def download_anime(quality):
     selected_quality = quality
     driver = None
     
+    anime_downBtn.configure(state="disabled", text="Downloading...")
+    window.update()
+
     extension_path = './adblock.crx'
     chrome_options = Options()
     chrome_options.add_extension(extension_path)
@@ -123,27 +131,30 @@ def download_anime(quality):
         print(f"An error occurred on page {episode_num}: {str(e)}")
 
     finally:
-        anime_name = anime_link.split('/')[-1]
-        
-        for episode_num in range(start_page, end_page +1):
+        try:
+            anime_name = anime_link.split('/')[-1]
             
-            video_url = video_urls[episode_num - start_page]
-            
-            print(f'downloading...[{anime_name}] => [{video_url}]')
-            try:
-                response = requests.get(video_url, stream=True)
-                file_size = int(response.headers.get('content-length', 0))
-                filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
-                with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
-                    for chunk in response.iter_content(chunk_size=1024):
-                        if chunk:
-                            file.write(chunk)
-                            bar.update(len(chunk))
+            for episode_num in range(start_page, end_page +1):
 
-                print(f"Episode {episode_num} downloaded successfully.")
-                print('='*50)
-            except Exception as e:
-                print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
+                video_url = video_urls[episode_num - start_page]
+
+                print(f'downloading...[{anime_name}] => [{video_url}]')
+                try:
+                    response = requests.get(video_url, stream=True)
+                    file_size = int(response.headers.get('content-length', 0))
+                    filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
+                    with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
+                        for chunk in response.iter_content(chunk_size=1024):
+                            if chunk:
+                                file.write(chunk)
+                                bar.update(len(chunk))
+
+                    print(f"Episode {episode_num} downloaded successfully.")
+                    print('='*50)
+                except Exception as e:
+                    print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
+        finally:
+            anime_downBtn.configure(state="normal", text="Download")
         
 window = ctk.CTk()
 window.title("Aninga")

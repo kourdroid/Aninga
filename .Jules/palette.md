@@ -1,3 +1,6 @@
 ## 2024-03-20 - CustomTkinter Radio Button Empty State
 **Learning:** CustomTkinter `CTkRadioButton` components bound to a `StringVar` will render in an empty (unselected) visual state if the variable isn't explicitly initialized with a value that matches one of the radio buttons, potentially confusing users about what the default selection is.
 **Action:** Always initialize CustomTkinter StringVars or IntVars with a `value='...'` argument that matches one of the radio button options to ensure a valid default state is visibly selected on mount.
+## 2024-06-15 - Synchronous blocking operations freeze Tkinter UI
+**Learning:** Tkinter is a single-threaded GUI framework. Running synchronous blocking operations (like downloading files or scraping web pages with Selenium) in button command callbacks freezes the main event loop, making the application appear unresponsive and failing to update the UI (e.g. state changes).
+**Action:** When a background thread or async refactor is out of scope (as per micro-UX constraint), use `.configure(state="disabled", text="...")` combined with `window.update()` *before* the blocking operation to force a visual state change, and use `try...finally` blocks to ensure the UI state is reliably restored after the operation completes or fails.
