@@ -21,6 +21,9 @@ def download_manga():
     img_class = manga_classInput.get()
     driver = None
     try:
+        manga_downBtn.configure(state="disabled", text="Downloading...")
+        window.update()
+
         # Create the destination directory if it doesn't exist
         if not os.path.exists(destination):
             os.makedirs(destination)
@@ -60,6 +63,7 @@ def download_manga():
     except Exception as e:
         print(f"Error: {str(e)}")
     finally:
+        manga_downBtn.configure(state="normal", text="Download")
         if driver:
             driver.quit()
     
@@ -84,6 +88,9 @@ def download_anime(quality):
     
 
     try:      
+        anime_downBtn.configure(state="disabled", text="Downloading...")
+        window.update()
+
         start_page, end_page = map(int, anime_range.split('-'))
         episode_num = start_page
         print('please wait until data scraped...')
@@ -123,6 +130,7 @@ def download_anime(quality):
         print(f"An error occurred on page {episode_num}: {str(e)}")
 
     finally:
+        anime_downBtn.configure(state="normal", text="Download")
         anime_name = anime_link.split('/')[-1]
         
         for episode_num in range(start_page, end_page +1):
