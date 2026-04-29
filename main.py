@@ -248,5 +248,17 @@ anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
 
+# Accessibility: Add visual focus states to all CTkEntry fields
+# Because border_width=0 initially, the built-in focus states are invisible.
+# We set border_width=2 with a background-matching color so the layout doesn't shift,
+# and toggle the border_color on focus to improve keyboard accessibility.
+entries = [
+    manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput,
+    anime_urlInput, anime_rangeInput, anime_destinationInput
+]
+for entry in entries:
+    entry.configure(border_width=2, border_color=inputBgColor)
+    entry.bind('<FocusIn>', lambda e, w=entry: w.configure(border_color=primary))
+    entry.bind('<FocusOut>', lambda e, w=entry: w.configure(border_color=inputBgColor))
 
 window.mainloop()
