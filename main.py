@@ -196,16 +196,16 @@ mangaFrame.place(x=0,y=120)
 mangaTitle = ctk.CTkLabel(master=mangaFrame, text='Manga Downloader', font=heading2,text_color=primary)
 mangaTitle.place(x=168,y=58)
 
-manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Manga Link (e.g. without page number)')
+manga_urlInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=2,border_color=bgColor, placeholder_text='Manga Link (e.g. without page number)')
 manga_urlInput.place(x=70,y=162)
 
-manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Page Range (e.g. 1-10)')
+manga_rangeInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=2,border_color=bgColor, placeholder_text='Page Range (e.g. 1-10)')
 manga_rangeInput.place(x=70,y=240)
 
-manga_destinationInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
+manga_destinationInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=2,border_color=bgColor, placeholder_text='Enter the Destination')
 manga_destinationInput.place(x=70,y=317)
 
-manga_classInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Class of Image')
+manga_classInput = ctk.CTkEntry(mangaFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=2,border_color=bgColor, placeholder_text='Enter the Class of Image')
 manga_classInput.place(x=70,y=394)
 
 manga_downBtn = ctk.CTkButton(mangaFrame ,command=download_manga, corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3, hover_color=hover_primary, cursor='hand2')
@@ -217,13 +217,13 @@ manga_downBtn.place(x=189,y=474)
 animeTitle = ctk.CTkLabel(master=animeFrame, text='Anime Downloader', font=heading2,text_color=primary)
 animeTitle.place(x=168,y=58)
 
-anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=0, placeholder_text='Anime Link (e.g. without episode number)')
+anime_urlInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor ,font=p,border_width=2,border_color=bgColor, placeholder_text='Anime Link (e.g. without episode number)')
 anime_urlInput.place(x=70,y=162)
 
-anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Episode Range (e.g. 1-25)')
+anime_rangeInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=2,border_color=bgColor, placeholder_text='Episode Range (e.g. 1-25)')
 anime_rangeInput.place(x=70,y=240)
 
-anime_destinationInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=0, placeholder_text='Enter the Destination')
+anime_destinationInput = ctk.CTkEntry(animeFrame,width=500,height=50,corner_radius=60,fg_color=inputBgColor,font=p,border_width=2,border_color=bgColor, placeholder_text='Enter the Destination')
 anime_destinationInput.place(x=70,y=317)
 
 qFrame = ctk.CTkFrame(animeFrame,width=500,height=50,fg_color=bgColor, bg_color=bgColor)
@@ -245,6 +245,17 @@ q4.place(x=402, y=9)
 
 anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3,hover_color=hover_primary, cursor='hand2')
 anime_downBtn.place(x=189,y=474)
+
+# ========================== Focus States binding ==================
+
+entries = [
+    manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput,
+    anime_urlInput, anime_rangeInput, anime_destinationInput
+]
+
+for entry in entries:
+    entry.bind("<FocusIn>", lambda e, w=entry: w.configure(border_color=primary))
+    entry.bind("<FocusOut>", lambda e, w=entry: w.configure(border_color=bgColor))
 
 # ========================== End Section =========================
 
