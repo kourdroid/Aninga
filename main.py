@@ -248,5 +248,14 @@ anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
 
+# Accessibility: Add visual focus states to all entry widgets
+entry_widgets = [
+    manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput,
+    anime_urlInput, anime_rangeInput, anime_destinationInput
+]
+for entry in entry_widgets:
+    entry.configure(border_width=2, border_color=inputBgColor)
+    entry.bind('<FocusIn>', lambda e, w=entry: w.configure(border_color=primary))
+    entry.bind('<FocusOut>', lambda e, w=entry: w.configure(border_color=inputBgColor))
 
 window.mainloop()
