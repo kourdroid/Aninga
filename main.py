@@ -246,6 +246,12 @@ q4.place(x=402, y=9)
 anime_downBtn = ctk.CTkButton(animeFrame,command=lambda: download_anime(quality_var.get(),), corner_radius=64, width=260 , height=50,fg_color=primary, border_width=0, text='Download',font=heading3,hover_color=hover_primary, cursor='hand2')
 anime_downBtn.place(x=189,y=474)
 
+# Add focus visual indicators for accessibility
+for entry in [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput, anime_urlInput, anime_rangeInput, anime_destinationInput]:
+    entry.configure(border_width=2, border_color=bgColor)
+    entry.bind('<FocusIn>', lambda e, w=entry: w.configure(border_color=primary))
+    entry.bind('<FocusOut>', lambda e, w=entry: w.configure(border_color=bgColor))
+
 # ========================== End Section =========================
 
 
