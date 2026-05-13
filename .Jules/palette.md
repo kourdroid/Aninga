@@ -5,3 +5,7 @@
 ## 2024-05-19 - Visual Feedback for Blocking Operations in CustomTkinter
 **Learning:** In Tkinter/CustomTkinter, synchronous blocking operations within callbacks freeze the main UI thread. Because of this, assigning UI state changes (such as disabling a button and changing text to "Downloading...") won't visually render unless `window.update()` is called immediately after before the blocking task begins.
 **Action:** Apply UI state changes and call `window.update()` prior to blocking operations, and ensure the state is reliably restored inside a `finally` block to prevent the app from getting permanently stuck in a loading state if an error occurs.
+
+## 2024-05-20 - CustomTkinter Input Focus States
+**Learning:** CustomTkinter `CTkEntry` widgets with `border_width=0` provide no visual feedback when a user tabs into them, breaking keyboard accessibility and failing WCAG focus visible requirements.
+**Action:** Always provide a default `border_width` matching the background color, and bind `<FocusIn>`/`<FocusOut>` events to toggle the `border_color` to a primary highlight color to ensure keyboard users know which input is active.
