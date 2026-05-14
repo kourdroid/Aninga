@@ -248,11 +248,18 @@ anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
 
-entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput, anime_urlInput, anime_rangeInput, anime_destinationInput]
+manga_entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput]
+anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 
-for entry in entries:
+for entry in manga_entries + anime_entries:
     entry.configure(border_width=2, border_color=bgColor)
     entry.bind('<FocusIn>', lambda event, w=entry: w.configure(border_color=primary))
     entry.bind('<FocusOut>', lambda event, w=entry: w.configure(border_color=bgColor))
+
+for entry in manga_entries:
+    entry.bind('<Return>', lambda event: download_manga())
+
+for entry in anime_entries:
+    entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
 window.mainloop()
