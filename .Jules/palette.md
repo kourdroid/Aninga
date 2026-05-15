@@ -9,3 +9,7 @@
 ## 2024-05-20 - CustomTkinter Input Focus States
 **Learning:** CustomTkinter `CTkEntry` widgets with `border_width=0` provide no visual feedback when a user tabs into them, breaking keyboard accessibility and failing WCAG focus visible requirements.
 **Action:** Always provide a default `border_width` matching the background color, and bind `<FocusIn>`/`<FocusOut>` events to toggle the `border_color` to a primary highlight color to ensure keyboard users know which input is active.
+
+## 2024-05-21 - CustomTkinter Keyboard Submission Support
+**Learning:** In CustomTkinter, `CTkEntry` components don't natively trigger button clicks or form submissions on "Enter", leading to an unexpected dead end for users navigating via keyboard. Attempting to use the underlying tkinter `.invoke()` on a `CTkButton` may not work as expected due to CustomTkinter's custom event handlers.
+**Action:** Enhance accessibility by explicitly binding `<Return>` to CustomTkinter entries so that pressing Enter directly triggers the associated form logic/handler.
