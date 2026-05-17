@@ -255,4 +255,10 @@ for entry in entries:
     entry.bind('<FocusIn>', lambda event, w=entry: w.configure(border_color=primary))
     entry.bind('<FocusOut>', lambda event, w=entry: w.configure(border_color=bgColor))
 
+for entry in [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput]:
+    entry.bind('<Return>', lambda event: download_manga())
+
+for entry in [anime_urlInput, anime_rangeInput, anime_destinationInput]:
+    entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
+
 window.mainloop()
