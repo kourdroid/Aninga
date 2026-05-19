@@ -1,0 +1,3 @@
+## 2024-05-19 - Using 1KB chunk sizes for video downloads creates massive CPU/IO overhead
+**Learning:** In `main.py`, the `chunk_size` for downloading anime episodes was set to `1024` (1KB). Since anime episodes are often several hundred megabytes, this forced hundreds of thousands of disk I/O operations and `tqdm` progress bar updates, which are largely CPU-bound. In local testing, changing the chunk size to 1MB reduced CPU overhead massively and sped up processing by orders of magnitude for large file downloads.
+**Action:** When streaming large binary files, especially with progress bar updates (`tqdm`) and disk writes, always use a larger chunk size (e.g. `1024 * 1024` for 1MB) to batch updates and reduce write thrashing.

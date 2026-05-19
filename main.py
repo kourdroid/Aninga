@@ -143,7 +143,9 @@ def download_anime(quality):
                 file_size = int(response.headers.get('content-length', 0))
                 filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
                 with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
-                    for chunk in response.iter_content(chunk_size=1024):
+                    # ⚡ Bolt Optimization: Increased chunk size from 1KB to 1MB (1024*1024)
+                    # to significantly reduce disk I/O operations and tqdm redraw overhead.
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
                         if chunk:
                             file.write(chunk)
                             bar.update(len(chunk))
