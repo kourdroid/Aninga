@@ -13,3 +13,7 @@
 ## 2024-05-23 - CustomTkinter Keyboard Submit Binding
 **Learning:** CustomTkinter `CTkEntry` widgets do not natively submit forms when the user presses the `<Return>` key. Relying on clicking the submit button breaks keyboard accessibility for power users and screen readers.
 **Action:** Always improve keyboard accessibility by explicitly binding the `<Return>` key (`<Return>`) on `CTkEntry` components to the respective submit function or logic handling form submission.
+
+## 2024-05-24 - Transient Inline Form Validation Feedback on Buttons
+**Learning:** In CustomTkinter, users don't receive feedback when submitting empty forms, leading to silent failures. Since there are no dedicated error labels, the action button itself is an effective place to show transient inline validation feedback (e.g. changing text/color temporarily).
+**Action:** Validate input fields before processing. If invalid, temporarily update the action button's text and color to indicate the error, then use `window.after` to restore the original state without blocking the UI thread.

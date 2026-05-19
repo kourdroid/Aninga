@@ -20,6 +20,13 @@ def download_manga():
     destination = manga_destinationInput.get()
     img_class = manga_classInput.get()
     driver = None
+
+    if not all([manga_link, manga_range, destination, img_class]):
+        orig_color = manga_downBtn.cget("fg_color")
+        manga_downBtn.configure(text="Fill all fields!", fg_color="orange")
+        window.after(2000, lambda: manga_downBtn.configure(text="Download", fg_color=orig_color))
+        return
+
     try:
         manga_downBtn.configure(state="disabled", text="Downloading...")
         window.update()
@@ -78,6 +85,12 @@ def download_anime(quality):
     selected_quality = quality
     driver = None
     
+    if not all([anime_link, anime_range, destination]):
+        orig_color = anime_downBtn.cget("fg_color")
+        anime_downBtn.configure(text="Fill all fields!", fg_color="orange")
+        window.after(2000, lambda: anime_downBtn.configure(text="Download", fg_color=orig_color))
+        return
+
     extension_path = './adblock.crx'
     chrome_options = Options()
     chrome_options.add_extension(extension_path)
