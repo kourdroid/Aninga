@@ -1,0 +1,39 @@
+
+========================================
+Analyzing Anime3rb
+========================================
+[TITLE]: Anime3rb انمي عرب لمشاهدة و تحميل الانمي المترجم
+Total episode links found: 48
+Total anime links found: 28
+
+[SAMPLE EPISODE LINK]: https://anime3rb.com/episode/one-piece/1157
+ - Tag: <a> Classes: ['btn', 'btn-md', 'btn-plain', 'video-card', 'w-full']
+ - Parent Tag: <li> Classes: ['glide__slide']
+ - Grandparent Tag (Grid?): <ul> Classes: ['glide__slides', 'videos-slider']
+
+[SAMPLE ANIME LINK]: https://anime3rb.com/titles/list
+ - Tag: <a> Classes: ['btn', 'btn-md', 'btn-link', 'md:hidden', 'xl:inline']
+ - Parent Tag: <nav> Classes: ['lg:ms-2', 'xl:ms-6', 'hidden', 'md:flex']
+ - Grandparent Tag (Grid?): <div> Classes: ['flex', 'items-center']
+
+========================================
+Analyzing Anime4up
+========================================
+[TITLE]: Anime4up - انمي فور اب
+Total episode links found: 88
+Total anime links found: 94
+
+[SAMPLE EPISODE LINK]: https://w1.anime4up.rest/episode/%d8%a7%d9%86%d9%85%d9%8a-dr-stone-science-future-part-3-%d8%a7%d9%84%d8%ad%d9%84%d9%82%d8%a9-3-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/
+ - Tag: <a> Classes: ['lucodeia-slider-slide-item']
+ - Parent Tag: <div> Classes: ['item']
+ - Grandparent Tag (Grid?): <div> Classes: ['owl-carousel', 'lucodeia-slider']
+
+[SAMPLE ANIME LINK]: https://w1.anime4up.rest/anime/dorohedoro-season-2/
+ - Tag: <a> Classes: ['overlay']
+ - Parent Tag: <img> Classes: ['img-responsive', 'imgInit']
+ - Grandparent Tag (Grid?): <div> Classes: ['hover', 'ehover6']
+
+========================================
+Analyzing TopCinema
+========================================
+[ERROR]: Request failed: 'ascii' codec can't encode characters in position 14-20: ordinal not in range(128)

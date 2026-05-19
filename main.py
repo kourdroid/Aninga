@@ -64,86 +64,96 @@ def download_manga():
             driver.quit()
     
 def download_anime(quality):
-    global destination
-    global video_urls
-    video_urls = []
-    episode_number = []
+    import threading
+    import asyncio
+    
+    def _run_async():
+        asyncio.run(download_anime_async(quality))
+        
+    # Start thread to avoid freezing customtkinter UI
+    threading.Thread(target=_run_async, daemon=True).start()
+
+async def download_anime_async(quality):
+    from core.manager import PluginManager
+    from core.downloader import AsyncDownloader
+    from core.browser import create_stealth_driver
+    from urllib.parse import urlparse
+    import time
+    from tqdm import tqdm
+
     anime_link = anime_urlInput.get()
     anime_range = anime_rangeInput.get()
     destination = anime_destinationInput.get()
-    selected_quality = quality
+    
+    print("Loading plugins...")
+    manager = PluginManager()
+    manager.load_plugins()
+    
+    domain = urlparse(anime_link).netloc.replace('www.', '')
+    
+    target_plugin = None
+    for p in manager.get_all_plugins():
+        if p.domain in domain:
+            target_plugin = p
+            break
+            
+    if not target_plugin:
+        print(f"[Error] No plugin found for domain: {domain}")
+        return
+        
+    print(f"Using plugin: {target_plugin.name}")
+    
+    # Initialize the Stealth Driver conditionally based on known protections
     driver = None
+    if "blkom" in domain or "topcinemaa" in domain:
+        print("Engaging Stealth CAPTCHA Browser...")
+        driver = create_stealth_driver()
+        
+    start_page, end_page = map(int, anime_range.split('-'))
+    downloader = AsyncDownloader(destination)
+    anime_name = anime_link.strip('/').split('/')[-1]
     
-    extension_path = './adblock.crx'
-    chrome_options = Options()
-    chrome_options.add_extension(extension_path)
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    driver = webdriver.Chrome(options=chrome_options)
-
-    
-
-    try:      
-        start_page, end_page = map(int, anime_range.split('-'))
-        episode_num = start_page
-        print('please wait until data scraped...')
+    try:
         for episode_num in range(start_page, end_page + 1):
             episode_url = f"{anime_link}/{episode_num}"
-            driver.get(episode_url)
+            print(f"Resolving Episode {episode_num}...")
             
-            try:
-                download_button = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, 'body > div.content-wrapper > section.play-section > div > div > div > div > div.video-info.col-xs-12 > div:nth-child(1) > div > button'))
-                )
-
-                download_button.click()
-
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CLASS_NAME, 'panel-body'))
-                )
-
-                time.sleep(5)
-
-                links = driver.find_elements(By.XPATH, f'//div[@class="panel-body"]//a[contains(@class, "btn-white") and contains(text(), "{selected_quality}")]')
+            # Use plugin to resolve the direct MP4 links
+            video_urls = target_plugin.resolve_download_links(episode_url, driver)
+            
+            if not video_urls:
+                print(f"[Warning] No video links found for Episode {episode_num}")
+                continue
                 
-                for link in links:
-                    video_urls.append(link.get_attribute("href"))
-
-            except Exception as e:
-                print(f"An error occurred on page {episode_num}: {str(e)}")
+            # For this simple integration, just take the first link
+            target_url = video_urls[0]
             
+            print(f"Downloading... [{anime_name}] => [{target_url}]")
             
-            
-            ## Downloading from video_urls list ##
-
-        
-        driver.quit()     
-        print('Downloading Episodes...')   
-    except Exception as e:
-        print(f"An error occurred on page {episode_num}: {str(e)}")
-
-    finally:
-        anime_name = anime_link.split('/')[-1]
-        
-        for episode_num in range(start_page, end_page +1):
-            
-            video_url = video_urls[episode_num - start_page]
-            
-            print(f'downloading...[{anime_name}] => [{video_url}]')
+            # Progress bar closure
+            pbar = None
+            def progress(downloaded, total):
+                nonlocal pbar
+                if pbar is None:
+                    pbar = tqdm(total=total, unit='B', unit_scale=True, desc=f"Ep {episode_num}", leave=False)
+                # Update purely the delta
+                pbar.update(downloaded - pbar.n)
+                
             try:
-                response = requests.get(video_url, stream=True)
-                file_size = int(response.headers.get('content-length', 0))
-                filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
-                with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
-                    for chunk in response.iter_content(chunk_size=1024):
-                        if chunk:
-                            file.write(chunk)
-                            bar.update(len(chunk))
-
-                print(f"Episode {episode_num} downloaded successfully.")
+                filename = f"{anime_name}_ep{episode_num}.mp4"
+                await downloader.download_file(target_url, filename, progress)
+                if pbar: 
+                    pbar.close()
+                print(f"\nEpisode {episode_num} downloaded successfully.")
                 print('='*50)
             except Exception as e:
-                print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
+                if pbar: pbar.close()
+                print(f"\nError downloading Episode {episode_num}: {e}")
+                
+    finally:
+        if driver:
+            driver.quit()
+        print("Download Sequence Completed.")
         
 window = ctk.CTk()
 window.title("Aninga")
