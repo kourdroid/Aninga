@@ -263,4 +263,11 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+interactive_widgets = [manga_downBtn, anime_downBtn, q1, q2, q3, q4]
+for widget in interactive_widgets:
+    orig_color = widget.cget('fg_color')
+    hover_color = widget.cget('hover_color')
+    widget.bind('<FocusIn>', lambda event, w=widget, h=hover_color: w.configure(fg_color=h))
+    widget.bind('<FocusOut>', lambda event, w=widget, o=orig_color: w.configure(fg_color=o))
+
 window.mainloop()

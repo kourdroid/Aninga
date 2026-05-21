@@ -1,0 +1,3 @@
+## 2024-05-24 - Add focus visible styles for keyboard navigation to buttons and radio buttons
+**Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states for keyboard navigation, making it hard to see which element is currently focused when tabbing.
+**Action:** Improve accessibility by manually binding `<FocusIn>` and `<FocusOut>` events to temporarily alter their `fg_color` or `text_color` to match their hover states, ensuring users navigating via keyboard can clearly see the active element. When doing this in a loop or with a shared function, capture the widget and original color correctly using default lambda arguments or by dynamically fetching it.
