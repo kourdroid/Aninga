@@ -1,0 +1,3 @@
+## 2024-05-24 - Missing Keyboard Focus on CustomTkinter Buttons & Radio Buttons
+**Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states for keyboard navigation, creating a major accessibility barrier for non-mouse users.
+**Action:** Improved accessibility by binding `<FocusIn>` and `<FocusOut>` events to these widgets to temporarily alter their colors to match their hover states (using `fg_color` for buttons and `text_color` for radio buttons). Used `cget` to fetch the hover color dynamically and safely cached the original color to restore on focus out.
