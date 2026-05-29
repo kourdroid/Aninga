@@ -263,4 +263,18 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+def on_focus_in(w):
+    if not hasattr(w, 'orig_fg_color'):
+        w.orig_fg_color = w.cget('fg_color')
+    w.configure(fg_color=w.cget('hover_color'))
+
+def on_focus_out(w):
+    if hasattr(w, 'orig_fg_color'):
+        w.configure(fg_color=w.orig_fg_color)
+
+interactive_elements = [manga_downBtn, anime_downBtn, q1, q2, q3, q4]
+for widget in interactive_elements:
+    widget.bind('<FocusIn>', lambda event, w=widget: on_focus_in(w))
+    widget.bind('<FocusOut>', lambda event, w=widget: on_focus_out(w))
+
 window.mainloop()
