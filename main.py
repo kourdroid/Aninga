@@ -263,4 +263,16 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+# Accessibility: Add keyboard focus states to buttons
+buttons = [manga_downBtn, anime_downBtn]
+for btn in buttons:
+    btn.bind('<FocusIn>', lambda event, w=btn: w.configure(fg_color=w.cget('hover_color')))
+    btn.bind('<FocusOut>', lambda event, w=btn: w.configure(fg_color=primary))
+
+# Accessibility: Add keyboard focus states to radio buttons
+radio_buttons = [q1, q2, q3, q4]
+for rb in radio_buttons:
+    rb.bind('<FocusIn>', lambda event, w=rb: w.configure(text_color=primary))
+    rb.bind('<FocusOut>', lambda event, w=rb, orig_color=rb.cget('text_color'): w.configure(text_color=orig_color))
+
 window.mainloop()
