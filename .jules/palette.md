@@ -1,0 +1,3 @@
+## 2024-06-05 - CustomTkinter Keyboard Focus States
+**Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states when navigating via keyboard (e.g., using Tab). Furthermore, while altering `fg_color` works for buttons, modifying a radio button`s `fg_color` only changes the inner circle; its `text_color` must be modified instead to provide a visible focus indicator.
+**Action:** Always manually bind `<FocusIn>` and `<FocusOut>` events to these interactive widgets, altering `fg_color` for buttons and `text_color` for radio buttons, to ensure screen reader/keyboard-only users can clearly see which element has focus.
