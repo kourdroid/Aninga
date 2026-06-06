@@ -248,12 +248,32 @@ anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
 
+def set_focus_in(event, widget, prop, focus_val):
+    if not hasattr(widget, f"_orig_{prop}"):
+        setattr(widget, f"_orig_{prop}", widget.cget(prop))
+    widget.configure(**{prop: focus_val})
+
+def set_focus_out(event, widget, prop):
+    orig = getattr(widget, f"_orig_{prop}", None)
+    if orig is not None:
+        widget.configure(**{prop: orig})
+
 entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput, anime_urlInput, anime_rangeInput, anime_destinationInput]
 
 for entry in entries:
     entry.configure(border_width=2, border_color=bgColor)
     entry.bind('<FocusIn>', lambda event, w=entry: w.configure(border_color=primary))
     entry.bind('<FocusOut>', lambda event, w=entry: w.configure(border_color=bgColor))
+
+buttons = [manga_downBtn, anime_downBtn]
+for btn in buttons:
+    btn.bind('<FocusIn>', lambda event, w=btn: set_focus_in(event, w, "fg_color", w.cget("hover_color")))
+    btn.bind('<FocusOut>', lambda event, w=btn: set_focus_out(event, w, "fg_color"))
+
+radio_buttons = [q1, q2, q3, q4]
+for rb in radio_buttons:
+    rb.bind('<FocusIn>', lambda event, w=rb: set_focus_in(event, w, "text_color", w.cget("hover_color")))
+    rb.bind('<FocusOut>', lambda event, w=rb: set_focus_out(event, w, "text_color"))
 
 manga_entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput]
 for entry in manga_entries:
