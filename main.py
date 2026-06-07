@@ -263,4 +263,12 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+for btn in [manga_downBtn, anime_downBtn]:
+    btn.bind('<FocusIn>', lambda event, w=btn, hc=hover_primary: w.configure(fg_color=hc))
+    btn.bind('<FocusOut>', lambda event, w=btn, oc=primary: w.configure(fg_color=oc))
+
+for rb in [q1, q2, q3, q4]:
+    rb.bind('<FocusIn>', lambda event, w=rb, fc=hover_primary: w.configure(text_color=fc))
+    rb.bind('<FocusOut>', lambda event, w=rb, oc='#DCE4EE': w.configure(text_color=oc)) # Default CTk text color
+
 window.mainloop()
