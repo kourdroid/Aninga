@@ -248,6 +248,32 @@ anime_downBtn.place(x=189,y=474)
 
 # ========================== End Section =========================
 
+def btn_focus_in(event, w):
+    if not hasattr(w, '_orig_fg_color'):
+        w._orig_fg_color = w.cget('fg_color')
+    w.configure(fg_color=w.cget('hover_color'))
+
+def btn_focus_out(event, w):
+    if hasattr(w, '_orig_fg_color'):
+        w.configure(fg_color=w._orig_fg_color)
+
+def rb_focus_in(event, w):
+    if not hasattr(w, '_orig_text_color'):
+        w._orig_text_color = w.cget('text_color')
+    w.configure(text_color=w.cget('hover_color'))
+
+def rb_focus_out(event, w):
+    if hasattr(w, '_orig_text_color'):
+        w.configure(text_color=w._orig_text_color)
+
+for btn in [manga_downBtn, anime_downBtn]:
+    btn.bind('<FocusIn>', lambda e, w=btn: btn_focus_in(e, w))
+    btn.bind('<FocusOut>', lambda e, w=btn: btn_focus_out(e, w))
+
+for rb in [q1, q2, q3, q4]:
+    rb.bind('<FocusIn>', lambda e, w=rb: rb_focus_in(e, w))
+    rb.bind('<FocusOut>', lambda e, w=rb: rb_focus_out(e, w))
+
 entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput, anime_urlInput, anime_rangeInput, anime_destinationInput]
 
 for entry in entries:
