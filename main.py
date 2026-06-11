@@ -263,4 +263,21 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+def add_button_focus(widget):
+    orig_color = widget.cget('fg_color')
+    hover_color = widget.cget('hover_color')
+    widget.bind('<FocusIn>', lambda e, w=widget, h_col=hover_color: w.configure(fg_color=h_col))
+    widget.bind('<FocusOut>', lambda e, w=widget, o_col=orig_color: w.configure(fg_color=o_col))
+
+def add_radio_focus(widget):
+    orig_color = widget.cget('text_color')
+    widget.bind('<FocusIn>', lambda e, w=widget: w.configure(text_color=hover_primary))
+    widget.bind('<FocusOut>', lambda e, w=widget, o_col=orig_color: w.configure(text_color=o_col))
+
+add_button_focus(manga_downBtn)
+add_button_focus(anime_downBtn)
+
+for q_btn in [q1, q2, q3, q4]:
+    add_radio_focus(q_btn)
+
 window.mainloop()
