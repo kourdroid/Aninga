@@ -255,6 +255,16 @@ for entry in entries:
     entry.bind('<FocusIn>', lambda event, w=entry: w.configure(border_color=primary))
     entry.bind('<FocusOut>', lambda event, w=entry: w.configure(border_color=bgColor))
 
+buttons = [manga_downBtn, anime_downBtn]
+for btn in buttons:
+    btn.bind('<FocusIn>', lambda event, w=btn: w.configure(fg_color=hover_primary))
+    btn.bind('<FocusOut>', lambda event, w=btn, orig=btn.cget("fg_color"): w.configure(fg_color=orig))
+
+radios = [q1, q2, q3, q4]
+for radio in radios:
+    radio.bind('<FocusIn>', lambda event, w=radio: w.configure(text_color=primary))
+    radio.bind('<FocusOut>', lambda event, w=radio, orig=radio.cget("text_color"): w.configure(text_color=orig))
+
 manga_entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput]
 for entry in manga_entries:
     entry.bind('<Return>', lambda event: download_manga())
