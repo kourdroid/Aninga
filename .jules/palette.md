@@ -1,0 +1,3 @@
+## 2026-06-28 - Add Focus Indicators for CustomTkinter Buttons and RadioButtons
+**Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states for keyboard navigation. For radio buttons, altering `fg_color` only changes the inner circle, so `text_color` should be used instead. Querying color properties returns a list for dynamic theming, which must be restored carefully.
+**Action:** Manually bind `<FocusIn>` and `<FocusOut>` events. Use `fg_color` for buttons and `text_color` for radio buttons, passing back the dynamic theme color list (`["gray10", "#DCE4EE"]`) to restore states.
