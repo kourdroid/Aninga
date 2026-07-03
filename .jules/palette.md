@@ -1,0 +1,3 @@
+## 2024-07-03 - Focus states for CustomTkinter interactive widgets
+**Learning:** CustomTkinter CTkButton and CTkRadioButton widgets lack native visual focus states for keyboard navigation. Improve accessibility by manually binding `<FocusIn>` and `<FocusOut>` events. For buttons, modify `fg_color`. For radio buttons, modify `text_color` instead of `fg_color` (which only changes the inner checked circle). The default text color can be safely restored by providing `['gray10', '#DCE4EE']`.
+**Action:** When working with CustomTkinter, explicitly add keyboard focus bindings to improve keyboard navigation accessibility.
