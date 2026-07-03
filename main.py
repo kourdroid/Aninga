@@ -250,6 +250,16 @@ anime_downBtn.place(x=189,y=474)
 
 entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput, anime_urlInput, anime_rangeInput, anime_destinationInput]
 
+buttons = [manga_downBtn, anime_downBtn]
+for btn in buttons:
+    btn.bind('<FocusIn>', lambda event, w=btn: w.configure(fg_color=hover_primary))
+    btn.bind('<FocusOut>', lambda event, w=btn: w.configure(fg_color=primary))
+
+radios = [q1, q2, q3, q4]
+for radio in radios:
+    radio.bind('<FocusIn>', lambda event, w=radio: w.configure(text_color=primary))
+    radio.bind('<FocusOut>', lambda event, w=radio: w.configure(text_color=['gray10', '#DCE4EE']))
+
 for entry in entries:
     entry.configure(border_width=2, border_color=bgColor)
     entry.bind('<FocusIn>', lambda event, w=entry: w.configure(border_color=primary))
