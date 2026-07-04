@@ -1,0 +1,3 @@
+## 2024-05-24 - Focus States in CustomTkinter
+**Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states for keyboard navigation. Modifying a radio button's `fg_color` only changes the inner checked circle, so modifying `text_color` is the proper way to indicate focus for them. Additionally, querying color via `.cget()` returns a list of light/dark mode colors that safely restores default dynamic state.
+**Action:** Manually bind `<FocusIn>` and `<FocusOut>` events for all interactive CTk elements. Use `fg_color` for buttons and `text_color` for radio buttons to improve a11y.
