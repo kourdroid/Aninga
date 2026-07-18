@@ -259,11 +259,15 @@ buttons = [manga_downBtn, anime_downBtn]
 for btn in buttons:
     btn.bind('<FocusIn>', lambda event, w=btn: w.configure(fg_color=hover_primary))
     btn.bind('<FocusOut>', lambda event, w=btn: w.configure(fg_color=primary))
+    btn.bind('<space>', lambda event, w=btn: w._command() if getattr(w, '_command', None) and w.cget('state') != 'disabled' else None)
+    btn.bind('<Return>', lambda event, w=btn: w._command() if getattr(w, '_command', None) and w.cget('state') != 'disabled' else None)
 
 radio_buttons = [q1, q2, q3, q4]
 for rb in radio_buttons:
     rb.bind('<FocusIn>', lambda event, w=rb: w.configure(text_color=primary))
     rb.bind('<FocusOut>', lambda event, w=rb: w.configure(text_color=['gray10', '#DCE4EE']))
+    rb.bind('<space>', lambda event, w=rb: w.invoke() if getattr(w, 'invoke', None) and w.cget('state') != 'disabled' else None)
+    rb.bind('<Return>', lambda event, w=rb: w.invoke() if getattr(w, 'invoke', None) and w.cget('state') != 'disabled' else None)
 
 manga_entries = [manga_urlInput, manga_rangeInput, manga_destinationInput, manga_classInput]
 for entry in manga_entries:
