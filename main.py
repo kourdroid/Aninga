@@ -55,7 +55,8 @@ def download_manga():
                 img_path = os.path.join(destination, img_name)
 
                 with open(img_path, 'wb') as img_file:
-                    for chunk in img_response.iter_content(chunk_size=8192):
+                    # ⚡ Bolt: Increase chunk size to 1MB to reduce disk I/O thrashing
+                    for chunk in img_response.iter_content(chunk_size=1024*1024):
                         img_file.write(chunk)
 
                 print(f"Downloaded: {img_path}")
