@@ -48,17 +48,19 @@ def download_manga():
             soup = BeautifulSoup(driver.page_source, "html.parser")
             img_tags = soup.find_all('img', {'class': img_class})
 
-            for idx, img_tag in enumerate(img_tags):
-                img_url = img_tag.get('src')
-                img_response = requests.get(img_url, stream=True)
-                img_name = f"page_{page_num}_img_{idx + 1}.png"
-                img_path = os.path.join(destination, img_name)
+            # Optimize: use connection pooling for multiple image downloads on the same page
+            with requests.Session() as session:
+                for idx, img_tag in enumerate(img_tags):
+                    img_url = img_tag.get('src')
+                    img_response = session.get(img_url, stream=True)
+                    img_name = f"page_{page_num}_img_{idx + 1}.png"
+                    img_path = os.path.join(destination, img_name)
 
-                with open(img_path, 'wb') as img_file:
-                    for chunk in img_response.iter_content(chunk_size=8192):
-                        img_file.write(chunk)
+                    with open(img_path, 'wb') as img_file:
+                        for chunk in img_response.iter_content(chunk_size=8192):
+                            img_file.write(chunk)
 
-                print(f"Downloaded: {img_path}")
+                    print(f"Downloaded: {img_path}")
 
     except Exception as e:
         print(f"Error: {str(e)}")
