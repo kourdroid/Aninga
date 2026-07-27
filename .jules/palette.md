@@ -1,3 +1,7 @@
 ## 2024-07-09 - CustomTkinter Keyboard Accessibility
 **Learning:** CustomTkinter `CTkButton` and `CTkRadioButton` widgets lack native visual focus states for keyboard navigation. Modifying a radio button's `fg_color` only changes the inner checked circle, making it ineffective for focus feedback.
 **Action:** Improve accessibility by manually binding `<FocusIn>` and `<FocusOut>` events to temporarily alter their visual state. Use `fg_color` for buttons, but for radio buttons use `text_color`. Ensure loop variables in lambdas are captured as default arguments to prevent late-binding closure bugs.
+
+## 2024-07-27 - Keyboard Action Binding for CustomTkinter Widgets
+**Learning:** While CustomTkinter buttons and radio buttons might look focused, they do not inherently trigger their action using standard keyboard keys (Space/Enter). The commands must be manually invoked by explicitly binding `<space>` and `<Return>` keys. For `CTkButton` we invoke `w._command()` and for `CTkRadioButton` we use `w.invoke()`. Note that disabled states and the existence of the command property should be defensively checked first.
+**Action:** When creating accessible CustomTkinter forms or widgets, ensure that all interactive elements not only have a visual focus state but also explicitly bind the `<space>` and `<Return>` keys to trigger their associated actions manually if native trigger support is missing.
