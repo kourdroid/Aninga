@@ -38,25 +38,27 @@ def download_manga():
         # Loop through the specified range of pages and download images
         start_page, end_page = map(int, manga_range.split('-'))
 
-        for page_num in range(start_page, end_page + 1):
-            url = f"{base_url}/{page_num}"
-            print(f"Downloading images from: {url}")
+        # Bolt: Added connection pooling using requests.Session() to eliminate TCP/SSL handshake overhead for each image request
+        with requests.Session() as session:
+            for page_num in range(start_page, end_page + 1):
+                url = f"{base_url}/{page_num}"
+                print(f"Downloading images from: {url}")
 
-            driver.get(url)
-            time.sleep(2)  # Allow time for dynamic content to load, adjust as needed
+                driver.get(url)
+                time.sleep(2)  # Allow time for dynamic content to load, adjust as needed
 
-            soup = BeautifulSoup(driver.page_source, "html.parser")
-            img_tags = soup.find_all('img', {'class': img_class})
+                soup = BeautifulSoup(driver.page_source, "html.parser")
+                img_tags = soup.find_all('img', {'class': img_class})
 
-            for idx, img_tag in enumerate(img_tags):
-                img_url = img_tag.get('src')
-                img_response = requests.get(img_url, stream=True)
-                img_name = f"page_{page_num}_img_{idx + 1}.png"
-                img_path = os.path.join(destination, img_name)
+                for idx, img_tag in enumerate(img_tags):
+                    img_url = img_tag.get('src')
+                    img_response = session.get(img_url, stream=True)
+                    img_name = f"page_{page_num}_img_{idx + 1}.png"
+                    img_path = os.path.join(destination, img_name)
 
-                with open(img_path, 'wb') as img_file:
-                    for chunk in img_response.iter_content(chunk_size=8192):
-                        img_file.write(chunk)
+                    with open(img_path, 'wb') as img_file:
+                        for chunk in img_response.iter_content(chunk_size=8192):
+                            img_file.write(chunk)
 
                 print(f"Downloaded: {img_path}")
 
