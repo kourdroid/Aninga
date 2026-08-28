@@ -273,4 +273,14 @@ anime_entries = [anime_urlInput, anime_rangeInput, anime_destinationInput]
 for entry in anime_entries:
     entry.bind('<Return>', lambda event: download_anime(quality_var.get()))
 
+buttons = [manga_downBtn, anime_downBtn]
+for btn in buttons:
+    btn.bind('<FocusIn>', lambda event, w=btn: [setattr(w, '_orig_fg_color', w.cget('fg_color')) if not hasattr(w, '_orig_fg_color') else None, w.configure(fg_color=w.cget('hover_color'))])
+    btn.bind('<FocusOut>', lambda event, w=btn: w.configure(fg_color=getattr(w, '_orig_fg_color', w.cget('fg_color'))))
+
+radio_buttons = [q1, q2, q3, q4]
+for rb in radio_buttons:
+    rb.bind('<FocusIn>', lambda event, w=rb: [setattr(w, '_orig_text_color', w.cget('text_color')) if not hasattr(w, '_orig_text_color') else None, w.configure(text_color=w.cget('hover_color'))])
+    rb.bind('<FocusOut>', lambda event, w=rb: w.configure(text_color=getattr(w, '_orig_text_color', w.cget('text_color'))))
+
 window.mainloop()
