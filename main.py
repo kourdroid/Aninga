@@ -38,27 +38,29 @@ def download_manga():
         # Loop through the specified range of pages and download images
         start_page, end_page = map(int, manga_range.split('-'))
 
-        for page_num in range(start_page, end_page + 1):
-            url = f"{base_url}/{page_num}"
-            print(f"Downloading images from: {url}")
+        # Use requests.Session() to enable connection pooling for faster downloads
+        with requests.Session() as session:
+            for page_num in range(start_page, end_page + 1):
+                url = f"{base_url}/{page_num}"
+                print(f"Downloading images from: {url}")
 
-            driver.get(url)
-            time.sleep(2)  # Allow time for dynamic content to load, adjust as needed
+                driver.get(url)
+                time.sleep(2)  # Allow time for dynamic content to load, adjust as needed
 
-            soup = BeautifulSoup(driver.page_source, "html.parser")
-            img_tags = soup.find_all('img', {'class': img_class})
+                soup = BeautifulSoup(driver.page_source, "html.parser")
+                img_tags = soup.find_all('img', {'class': img_class})
 
-            for idx, img_tag in enumerate(img_tags):
-                img_url = img_tag.get('src')
-                img_response = requests.get(img_url, stream=True)
-                img_name = f"page_{page_num}_img_{idx + 1}.png"
-                img_path = os.path.join(destination, img_name)
+                for idx, img_tag in enumerate(img_tags):
+                    img_url = img_tag.get('src')
+                    img_response = session.get(img_url, stream=True)
+                    img_name = f"page_{page_num}_img_{idx + 1}.png"
+                    img_path = os.path.join(destination, img_name)
 
-                with open(img_path, 'wb') as img_file:
-                    for chunk in img_response.iter_content(chunk_size=8192):
-                        img_file.write(chunk)
+                    with open(img_path, 'wb') as img_file:
+                        for chunk in img_response.iter_content(chunk_size=8192):
+                            img_file.write(chunk)
 
-                print(f"Downloaded: {img_path}")
+                    print(f"Downloaded: {img_path}")
 
     except Exception as e:
         print(f"Error: {str(e)}")
@@ -133,25 +135,27 @@ def download_anime(quality):
         anime_downBtn.configure(state="normal", text="Download")
         anime_name = anime_link.split('/')[-1]
         
-        for episode_num in range(start_page, end_page +1):
-            
-            video_url = video_urls[episode_num - start_page]
-            
-            print(f'downloading...[{anime_name}] => [{video_url}]')
-            try:
-                response = requests.get(video_url, stream=True)
-                file_size = int(response.headers.get('content-length', 0))
-                filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
-                with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
-                    for chunk in response.iter_content(chunk_size=1024*1024): # 1MB chunk size
-                        if chunk:
-                            file.write(chunk)
-                            bar.update(len(chunk))
+        # Use requests.Session() to enable connection pooling for faster downloads
+        with requests.Session() as session:
+            for episode_num in range(start_page, end_page +1):
 
-                print(f"Episode {episode_num} downloaded successfully.")
-                print('='*50)
-            except Exception as e:
-                print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
+                video_url = video_urls[episode_num - start_page]
+
+                print(f'downloading...[{anime_name}] => [{video_url}]')
+                try:
+                    response = session.get(video_url, stream=True)
+                    file_size = int(response.headers.get('content-length', 0))
+                    filename = os.path.join(destination, f"{anime_name}_ep{episode_num}.mp4")
+                    with open(filename, 'wb') as file, tqdm(total=file_size, unit='B', unit_scale=True, desc=f"Downloading Episode {episode_num}", leave=False) as bar:
+                        for chunk in response.iter_content(chunk_size=1024*1024): # 1MB chunk size
+                            if chunk:
+                                file.write(chunk)
+                                bar.update(len(chunk))
+
+                    print(f"Episode {episode_num} downloaded successfully.")
+                    print('='*50)
+                except Exception as e:
+                    print(f"An error occurred while downloading Episode {episode_num}: {str(e)}")
         
 window = ctk.CTk()
 window.title("Aninga")
